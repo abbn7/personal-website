@@ -28,9 +28,9 @@
             --bg-primary-amoled: #000000;
             --text-primary-amoled: #FFFFFF;
             --text-secondary-amoled: #A0A0A0;
-            --card-gradient-amoled: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%);
+            --card-gradient-amoled: linear-gradient(135deg, #000000 0%, #0A0A0A 100%);
             --active-bg-amoled: #3B82F6;
-            --shadow-amoled: 0 4px 6px -1px rgba(255, 255, 255, 0.1);
+            --shadow-amoled: 0 4px 12px -1px rgba(255, 255, 255, 0.05);
         }
         
         [data-theme="amoled"] {
@@ -155,7 +155,8 @@
         }
         
         [data-theme="amoled"] .feature-card {
-            background: #0A0A0A;
+            background: #000000;
+            border: 1px solid #1A1A1A;
         }
         
         [data-theme="amoled"] .sidebar {
@@ -164,13 +165,21 @@
         }
         
         [data-theme="amoled"] .btn {
-            background: #1A1A1A;
+            background: #000000;
             color: #FFFFFF;
             border-color: #333333;
         }
         
         [data-theme="amoled"] .sidebar-item:not(.active):hover {
-            background: #1A1A1A;
+            background: #0A0A0A;
+        }
+        
+        [data-theme="amoled"] body {
+            background: #000000 !important;
+        }
+        
+        [data-theme="amoled"] .main-content {
+            background: #000000;
         }
         
         .feature-header {
