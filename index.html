@@ -24,22 +24,22 @@
             --border-radius: 20px;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             
-            /* Dark mode variables */
-            --bg-primary-dark: #0F172A;
-            --text-primary-dark: #F1F5F9;
-            --text-secondary-dark: #94A3B8;
-            --card-gradient-dark: linear-gradient(135deg, #1E293B 0%, #334155 100%);
-            --active-bg-dark: #3B82F6;
-            --shadow-dark: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+            /* Dark Amoled mode variables - True Black */
+            --bg-primary-amoled: #000000;
+            --text-primary-amoled: #FFFFFF;
+            --text-secondary-amoled: #A0A0A0;
+            --card-gradient-amoled: linear-gradient(135deg, #0A0A0A 0%, #1A1A1A 100%);
+            --active-bg-amoled: #3B82F6;
+            --shadow-amoled: 0 4px 6px -1px rgba(255, 255, 255, 0.1);
         }
         
-        [data-theme="dark"] {
-            --bg-primary: var(--bg-primary-dark);
-            --text-primary: var(--text-primary-dark);
-            --text-secondary: var(--text-secondary-dark);
-            --card-gradient: var(--card-gradient-dark);
-            --active-bg: var(--active-bg-dark);
-            --shadow: var(--shadow-dark);
+        [data-theme="amoled"] {
+            --bg-primary: var(--bg-primary-amoled);
+            --text-primary: var(--text-primary-amoled);
+            --text-secondary: var(--text-secondary-amoled);
+            --card-gradient: var(--card-gradient-amoled);
+            --active-bg: var(--active-bg-amoled);
+            --shadow: var(--shadow-amoled);
         }
         
         * {
@@ -154,18 +154,23 @@
             box-shadow: var(--shadow);
         }
         
-        [data-theme="dark"] .feature-card {
-            background: #1E293B;
+        [data-theme="amoled"] .feature-card {
+            background: #0A0A0A;
         }
         
-        [data-theme="dark"] .sidebar {
-            background: #1E293B;
+        [data-theme="amoled"] .sidebar {
+            background: #000000;
+            border-right: 1px solid #1A1A1A;
         }
         
-        [data-theme="dark"] .btn {
-            background: #334155;
-            color: #F1F5F9;
-            border-color: #475569;
+        [data-theme="amoled"] .btn {
+            background: #1A1A1A;
+            color: #FFFFFF;
+            border-color: #333333;
+        }
+        
+        [data-theme="amoled"] .sidebar-item:not(.active):hover {
+            background: #1A1A1A;
         }
         
         .feature-header {
@@ -367,7 +372,7 @@
                     </div>
                     <div class="sidebar-item theme-toggle">
                         <span class="sidebar-icon theme-icon">🌙</span>
-                        <span class="sidebar-text">Dark Mode</span>
+                        <span class="sidebar-text">Amoled Mode</span>
                     </div>
                     <div class="sidebar-item">
                         <span class="sidebar-icon">🚪</span>
@@ -394,13 +399,13 @@
         function updateThemeIcon(theme) {
             const themeIcon = document.querySelector('.theme-icon');
             if (themeIcon) {
-                themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+                themeIcon.textContent = theme === 'amoled' ? '☀️' : '🌙';
             }
         }
         
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            const newTheme = currentTheme === 'light' ? 'amoled' : 'light';
             setTheme(newTheme);
         }
         
@@ -408,7 +413,7 @@
         function initTheme() {
             const savedTheme = localStorage.getItem('theme') || 'light';
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const theme = savedTheme === 'auto' ? (prefersDark ? 'dark' : 'light') : savedTheme;
+            const theme = savedTheme === 'auto' ? (prefersDark ? 'amoled' : 'light') : savedTheme;
             setTheme(theme);
         }
         
