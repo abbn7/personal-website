@@ -24,6 +24,14 @@
             --border-radius: 20px;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
             
+            /* Dark mode variables */
+            --bg-primary-dark: #1A1A1A;
+            --text-primary-dark: #FFFFFF;
+            --text-secondary-dark: #A0A0A0;
+            --card-gradient-dark: linear-gradient(135deg, #2D2D2D 0%, #1A1A1A 100%);
+            --active-bg-dark: #3B82F6;
+            --shadow-dark: 0 4px 12px -1px rgba(255, 255, 255, 0.1);
+            
             /* Dark Amoled mode variables - True Black */
             --bg-primary-amoled: #000000;
             --text-primary-amoled: #FFFFFF;
@@ -31,6 +39,15 @@
             --card-gradient-amoled: linear-gradient(135deg, #000000 0%, #0A0A0A 100%);
             --active-bg-amoled: #3B82F6;
             --shadow-amoled: 0 4px 12px -1px rgba(255, 255, 255, 0.05);
+        }
+        
+        [data-theme="dark"] {
+            --bg-primary: var(--bg-primary-dark);
+            --text-primary: var(--text-primary-dark);
+            --text-secondary: var(--text-secondary-dark);
+            --card-gradient: var(--card-gradient-dark);
+            --active-bg: var(--active-bg-dark);
+            --shadow: var(--shadow-dark);
         }
         
         [data-theme="amoled"] {
@@ -381,7 +398,7 @@
                     </div>
                     <div class="sidebar-item theme-toggle">
                         <span class="sidebar-icon theme-icon">🌙</span>
-                        <span class="sidebar-text">Amoled Mode</span>
+                        <span class="sidebar-text">Theme</span>
                     </div>
                     <div class="sidebar-item">
                         <span class="sidebar-icon">🚪</span>
@@ -408,21 +425,23 @@
         function updateThemeIcon(theme) {
             const themeIcon = document.querySelector('.theme-icon');
             if (themeIcon) {
-                themeIcon.textContent = theme === 'amoled' ? '☀️' : '🌙';
+                themeIcon.textContent = theme === 'light' ? '🌙' : theme === 'dark' ? '🌑' : '☀️';
             }
         }
         
         function toggleTheme() {
             const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
-            const newTheme = currentTheme === 'light' ? 'amoled' : 'light';
-            setTheme(newTheme);
+            const themes = ['light', 'dark', 'amoled'];
+            const currentIndex = themes.indexOf(currentTheme);
+            const nextIndex = (currentIndex + 1) % themes.length;
+            setTheme(themes[nextIndex]);
         }
         
         // Initialize theme
         function initTheme() {
             const savedTheme = localStorage.getItem('theme') || 'light';
             const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            const theme = savedTheme === 'auto' ? (prefersDark ? 'amoled' : 'light') : savedTheme;
+            const theme = savedTheme === 'auto' ? (prefersDark ? 'dark' : 'light') : savedTheme;
             setTheme(theme);
         }
         
