@@ -23,6 +23,23 @@
             --icon-personal: #F59E0B;
             --border-radius: 20px;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            
+            /* Dark mode variables */
+            --bg-primary-dark: #0F172A;
+            --text-primary-dark: #F1F5F9;
+            --text-secondary-dark: #94A3B8;
+            --card-gradient-dark: linear-gradient(135deg, #1E293B 0%, #334155 100%);
+            --active-bg-dark: #3B82F6;
+            --shadow-dark: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+        }
+        
+        [data-theme="dark"] {
+            --bg-primary: var(--bg-primary-dark);
+            --text-primary: var(--text-primary-dark);
+            --text-secondary: var(--text-secondary-dark);
+            --card-gradient: var(--card-gradient-dark);
+            --active-bg: var(--active-bg-dark);
+            --shadow: var(--shadow-dark);
         }
         
         * {
@@ -135,6 +152,20 @@
             border-radius: var(--border-radius);
             padding: 25px;
             box-shadow: var(--shadow);
+        }
+        
+        [data-theme="dark"] .feature-card {
+            background: #1E293B;
+        }
+        
+        [data-theme="dark"] .sidebar {
+            background: #1E293B;
+        }
+        
+        [data-theme="dark"] .btn {
+            background: #334155;
+            color: #F1F5F9;
+            border-color: #475569;
         }
         
         .feature-header {
@@ -334,8 +365,8 @@
                         <span class="sidebar-icon">👤</span>
                         <span class="sidebar-text">Profile</span>
                     </div>
-                    <div class="sidebar-item">
-                        <span class="sidebar-icon">🌙</span>
+                    <div class="sidebar-item theme-toggle">
+                        <span class="sidebar-icon theme-icon">🌙</span>
                         <span class="sidebar-text">Dark Mode</span>
                     </div>
                     <div class="sidebar-item">
@@ -353,10 +384,42 @@
     </div>
     
     <script>
+        // Theme management
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            updateThemeIcon(theme);
+        }
+        
+        function updateThemeIcon(theme) {
+            const themeIcon = document.querySelector('.theme-icon');
+            if (themeIcon) {
+                themeIcon.textContent = theme === 'dark' ? '☀️' : '🌙';
+            }
+        }
+        
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            setTheme(newTheme);
+        }
+        
+        // Initialize theme
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = savedTheme === 'auto' ? (prefersDark ? 'dark' : 'light') : savedTheme;
+            setTheme(theme);
+        }
+        
         // Simple interactivity
         document.addEventListener('DOMContentLoaded', function() {
             const menuToggle = document.querySelector('.menu-toggle');
             const sidebarItems = document.querySelectorAll('.sidebar-item');
+            const themeToggle = document.querySelector('.theme-toggle');
+            
+            // Initialize theme
+            initTheme();
             
             menuToggle.addEventListener('click', function() {
                 alert('Menu functionality would go here');
@@ -364,6 +427,12 @@
             
             sidebarItems.forEach(item => {
                 item.addEventListener('click', function() {
+                    // Handle theme toggle separately
+                    if (this.querySelector('.sidebar-text').textContent === 'Dark Mode') {
+                        toggleTheme();
+                        return;
+                    }
+                    
                     sidebarItems.forEach(i => i.classList.remove('active'));
                     this.classList.add('active');
                 });
